@@ -3,6 +3,7 @@ const app = express()
 const cors = require('cors')
 const route = express.Router()
 const companiesmodel = require('../model/companies')
+//add company details
 route.post('/addcompany', (req, res) => {
     let info = new companiesmodel(req.body)
     info.save()
@@ -21,7 +22,9 @@ route.get('/get',(req, res) =>{
          const {q} = req.query 
          console.log(req.query);   
  //companiesmodel.find({products:{$elemMatch:{name:q}}}, function (error, info) {
- companiesmodel.find({relationships:{$elemMatch:{"person.first_name":q}}}, function (error, info) {
+
+ //.......Search by person first name........//
+ companiesmodel.find({relationships:{$elemMatch:{"person.first_name":q}}}, function (error, info) {  
 
      if (error){
          return (error);
@@ -35,7 +38,7 @@ route.get('/get',(req, res) =>{
          res.status(500).json({ sucess: false, message: "internal server error", error: error.message});
      }
  });
- //get all
+ //get all 
  route.get('/city/all',(req, res) =>{    
     try {
         const {q} = req.query 
@@ -70,7 +73,7 @@ companiesmodel.find({City:{$all:q.split(",")}}, function (error, info) {
         res.status(500).json({ sucess: false, message: "internal server error", error: error.message});
     }
  });
-// get any 
+// get  city any one is there
 route.get('/city/any',(req, res) =>{    
     try {
         const { c } = req.query    

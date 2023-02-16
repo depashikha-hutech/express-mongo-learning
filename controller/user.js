@@ -5,6 +5,8 @@ const route = express.Router()
 const userModel = require('../model/user')
 const { count } = require('../model/user')
 app.use(cors());
+
+// add user info  //
 route.post('/add', (req, res) => {
     let info = new userModel(req.body)
     info.save()
@@ -62,9 +64,12 @@ route.delete('/delete/:id', (req, res) => {
         res.status(500).send(error);
     })
 })
+
+// get api  with offset and limits
+
  route.get('/',(req, res) =>{    
     try {
-        const {q,limit=null,from= 0 } = req.query    
+     const {q,limit,from} = req.query
 userModel.find({name:{$regex:q}}, function (error, info,count) {
     if (error){
         return (error);
@@ -72,6 +77,10 @@ userModel.find({name:{$regex:q}}, function (error, info,count) {
         res.send({count:count,info:info})     
        }
     })
+    //.....  using .skip and .limit..........//
+    //offset and limits
+       // .skip(req.query.offset)
+      //.limit(req.query.limit);
     }catch (error) {
         console.log(error);
         res.status(500).json({ sucess: false, message: "internal server error", error: error.message});

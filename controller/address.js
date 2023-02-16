@@ -91,8 +91,9 @@ route.get('/state',(req, res) =>{
         const {r} = req.query 
         console.log(req.query)
         let places = r?.split(",")||[]
-        companiesmodel.find({Address:{$elemMatch:{state:{$in:places}}}}, function (error, info) {
-    
+       // companiesmodel.find({Address:{$elemMatch:{state:{$in:places}}}}, function (error, info) {
+     companiesmodel.find({Address:{$elemMatch:{state:{$all:places}}}}, function (error, info) {
+
 
     
 if (error){

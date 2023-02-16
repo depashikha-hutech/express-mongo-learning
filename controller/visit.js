@@ -10,7 +10,11 @@ route.get('/any',(req, res) =>{
         console.log(req.query);  
         let  visits=(d?.split(",") ||[]).map(n=>+n)
         console.log(visits);
+        //......get visitis from array of object..//
    //companiesmodel.find({dailyvisits:{$in:[43,89]}}, function (error, info) {
+
+
+   //  ..... get any visit...//
    companiesmodel.find({dailyvisits:{$in:visits}}, function (error, info) {
     if (error){
         return (error);
